@@ -47,7 +47,7 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root {
+/* :root {
     --background: oklch(1 0 0);
     --foreground: oklch(0.145 0 0);
     --card: oklch(1 0 0);
@@ -80,9 +80,47 @@
     --sidebar-accent-foreground: oklch(0.205 0 0);
     --sidebar-border: oklch(0.922 0 0);
     --sidebar-ring: oklch(0.708 0 0);
+} */
+
+:root {
+    --background: #FFFCF8;
+    --foreground: #2D2D2D;
+    --card: #FFFFFF;
+    --card-foreground: #2D2D2D;
+    --popover: #FFFFFF;
+    --popover-foreground: #2D2D2D;
+    --primary: #305D3D;
+    --primary-foreground: #FFFFFF;
+    --secondary: #E96D8E;
+    --secondary-foreground: #FFFFFF;
+    --accent: #5D8C63;
+    --accent-foreground: #FFFFFF;
+    --muted: #F9F4EC;
+    --muted-foreground: #737373;
+    --border: #D8D8D8;
+    --input: #EAEAEA;
+    --ring: #305D3D;
+    --success: #4CAF50;
+    --warning: #FFB020;
+    --error: #E53935;
+    --info: #3B82F6;
+    --chart-1: #305D3D;
+    --chart-2: #E96D8E;
+    --chart-3: #5D8C63;
+    --chart-4: #FFB020;
+    --chart-5: #3B82F6;
+    --radius: 1rem;
+    --sidebar: #FFFFFF;
+    --sidebar-foreground: #2D2D2D;
+    --sidebar-primary: #305D3D;
+    --sidebar-primary-foreground: #FFFFFF;
+    --sidebar-accent: #F9F4EC;
+    --sidebar-accent-foreground: #2D2D2D;
+    --sidebar-border: #EAEAEA;
+    --sidebar-ring: #305D3D;
 }
 
-.dark {
+/* .dark {
     --background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.205 0 0);
@@ -114,6 +152,44 @@
     --sidebar-accent-foreground: oklch(0.985 0 0);
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.556 0 0);
+} */
+
+
+.dark {
+    --background: #1E2721;
+    --foreground: #FFFCF8;
+    --card: #27342C;
+    --card-foreground: #FFFCF8;
+    --popover: #27342C;
+    --popover-foreground: #FFFCF8;
+    --primary: #5D8C63;
+    --primary-foreground: #FFFFFF;
+    --secondary: #E96D8E;
+    --secondary-foreground: #FFFFFF;
+    --accent: #7BA883;
+    --accent-foreground: #FFFFFF;
+    --muted: #2D3A31;
+    --muted-foreground: #B5B5B5;
+    --border: #3C4A40;
+    --input: #3C4A40;
+    --ring: #5D8C63;
+    --success: #4CAF50;
+    --warning: #FFB020;
+    --error: #E53935;
+    --info: #3B82F6;
+    --chart-1: #5D8C63;
+    --chart-2: #E96D8E;
+    --chart-3: #7BA883;
+    --chart-4: #FFB020;
+    --chart-5: #3B82F6;
+    --sidebar: #27342C;
+    --sidebar-foreground: #FFFCF8;
+    --sidebar-primary: #5D8C63;
+    --sidebar-primary-foreground: #FFFFFF;
+    --sidebar-accent: #2D3A31;
+    --sidebar-accent-foreground: #FFFFFF;
+    --sidebar-border: #3C4A40;
+    --sidebar-ring: #5D8C63;
 }
 
 @layer base {
