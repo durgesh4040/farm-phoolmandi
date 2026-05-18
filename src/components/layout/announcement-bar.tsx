@@ -6,7 +6,7 @@ const announcements = [
 ];
 export default function AnnouncementBar() {
   return (
-    <div className="bg-farm text-white text-xs font-medium py-2.5 px-4">
+    <div className="bg-farm text-black text-xs font-medium py-2.5 px-4">
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-6">
           {announcements.map((a) => (
@@ -16,7 +16,7 @@ export default function AnnouncementBar() {
             </span>
           ))}
         </div>
-        <div className="hidden md:flex items-center gap-4 text-white/80">
+        <div className="hidden md:flex items-center gap-4 text-black/80">
           <span>📞 +91 98765 43210</span>
           <span>✉️ info@phoolmandi.com</span>
           <div className="flex gap-2 ml-2">
