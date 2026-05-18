@@ -36,13 +36,10 @@ const fadeUp = (delay = 0) => ({
         delay,
     },
 });
-
 export default function HeroSection() {
     return (
-        <section className="relative overflow-hidden bg-[#FFF7F2]">
-
+        <section className="relative overflow-hidden bg-[#FFF7F2] text-black">
             <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
-
                 <div className="grid min-h-[80vh] items-center gap-12 lg:grid-cols-2">
 
                     {/* Left Side */}
@@ -146,7 +143,7 @@ export default function HeroSection() {
                         {/* Image */}
                         <div className="relative h-full overflow-hidden rounded-[32px] shadow-2xl">
                             <Image
-                                src="/flower.jpg"
+                                src="/flowers.jpg"
                                 alt="Flower Farm"
                                 fill
                                 priority

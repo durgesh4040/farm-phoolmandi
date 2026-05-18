@@ -12,7 +12,6 @@ import Footer from "@/components/layout/footer"
 export default function Page() {
   return (
     <>
-      <main>
         <HeroSection />
         <MarqueeStrip />
         <CategoriesSection />
@@ -21,7 +20,7 @@ export default function Page() {
         <BulkOrdersSection />
         <BookingSection />
         <TestimonialsSection />
-      </main>
+    
 
       {/* <Footer /> */}
     </>
