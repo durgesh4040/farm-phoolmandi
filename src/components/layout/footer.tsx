@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 const footerLinks = {
   "Quick Links": ["Home", "About Us", "Flowers", "Shop", "Bulk Orders", "Contact"],
   "Customer Care": ["My Account", "Track Order", "Shipping Policy", "Return Policy", "FAQs"],
