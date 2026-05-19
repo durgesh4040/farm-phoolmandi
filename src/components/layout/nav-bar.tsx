@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import Link from "next/link";
 import {
     Search,
@@ -9,7 +9,6 @@ import {
     X,
 } from "lucide-react";
 import { NAV_LINKS } from "@/lib/data";
-import { cn } from "@/lib/utils";
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
