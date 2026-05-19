@@ -1,8 +1,6 @@
 "use client";
-
 import { useState } from "react";
 import { motion } from "framer-motion";
-
 const FLOWER_OPTIONS = [
   "🌹 Roses (Gulab)   — ₹8–15/stem",
   "💐 Marigold (Genda) — ₹40–80/kg",
@@ -12,9 +10,7 @@ const FLOWER_OPTIONS = [
   "🌻 Sunflower — Pre-Book",
   "💐 Mixed Flowers",
 ];
-
 const CUSTOMER_TYPES = ["💍 Wedding", "🏪 Retail Shop", "🎪 Event/Decorator", "🕌 Temple", "🏢 Corporate"];
-
 export default function BookingSection() {
   const [form, setForm] = useState({
     name: "", phone: "", whatsapp: "", customerType: "",
