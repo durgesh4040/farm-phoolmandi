@@ -116,7 +116,7 @@ export default function HeroSection() {
                         transition={{ duration: 0.8 }}
                         className="relative h-[500px] lg:h-[700px]"
                     >
-                 <div className="inset-0 rounded-full bg-rose-200/40 blur-3xl" />
+                        <div className="inset-0 rounded-full bg-rose-200/40 blur-3xl" />
                         <div className="relative h-full overflow-hidden rounded-[32px] shadow-2xl">
                             <Image
                                 src="/flowers.jpg"

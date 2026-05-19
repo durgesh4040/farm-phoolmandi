@@ -185,7 +185,6 @@ export default function BookingSection() {
                              value={form.date} onChange={set("date")} />
                     </div>
                   </div>
-
                   <div>
                     <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
                       City / Location *
@@ -193,7 +192,6 @@ export default function BookingSection() {
                     <input className={inputCls} placeholder="e.g. Delhi, Jaipur, Agra"
                            value={form.city} onChange={set("city")} />
                   </div>
-
                   <div>
                     <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
                       Special Requirements

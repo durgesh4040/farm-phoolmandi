@@ -8,7 +8,6 @@ const footerLinks = {
 export default function Footer() {
   return (
     <footer className="bg-farm text-white">
-      {/* Newsletter */}
       <div className="border-b border-white/10">
         <div className="container py-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
@@ -30,11 +29,8 @@ export default function Footer() {
           </form>
         </div>
       </div>
-
-      {/* Main Footer */}
       <div className="container py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Brand */}
           <div className="lg:col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <span className="text-2xl">🌸</span>
@@ -63,8 +59,6 @@ export default function Footer() {
               ))}
             </div>
           </div>
-
-          {/* Links */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
               <h4 className="font-semibold text-sm tracking-wide mb-5">{title}</h4>
@@ -82,8 +76,6 @@ export default function Footer() {
               </ul>
             </div>
           ))}
-
-          {/* Contact */}
           <div>
             <h4 className="font-semibold text-sm tracking-wide mb-5">Contact Us</h4>
             <ul className="space-y-3 text-sm text-white/60">
@@ -97,8 +89,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
-      {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="container py-5 flex flex-col sm:flex-row items-center justify-between
                         gap-3 text-xs text-white/40">
