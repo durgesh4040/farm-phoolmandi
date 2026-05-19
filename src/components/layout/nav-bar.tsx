@@ -14,22 +14,9 @@ export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
     const [cartCount] = useState(2);
-    useEffect(() => {
-        const onScroll = () => {
-            setScrolled(window.scrollY > 20);
-        };
-        window.addEventListener("scroll", onScroll);
-        return () => {
-            window.removeEventListener("scroll", onScroll);
-        };
-    }, []);
     return (
         <header
-            className={cn(
-                "sticky top-0 z-50 h-[88px] border-b border-border bg-farm  transition-all duration-300 text-foreground",
-                scrolled && "shadow-sm"
-            )}
-        >
+            className="bg-farm h-22 sticky">
             <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-6 px-4 md:px-6 lg:px-8">
                 <Link
                     href="/"

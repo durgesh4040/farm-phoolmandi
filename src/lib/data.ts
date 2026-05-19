@@ -146,13 +146,12 @@ export const TRUST_FEATURES = [
   { icon: "🚚", title: "Fast Delivery",   desc: "On Time, Every Time"      },
   { icon: "⭐", title: "100% Quality",    desc: "Premium Flowers"          },
 ];
-
 export const NAV_LINKS = [
   { label: "Home",           href: "/" },
-  { label: "About Us",       href: "#about" },
-  { label: "Flowers",        href: "#flowers" },
-  { label: "Shop",           href: "#shop" },
-  { label: "Bulk Orders",    href: "#bulk" },
-  { label: "Blog",           href: "#blog" },
-  { label: "Contact",        href: "#contact" },
+  { label: "About Us",       href: "about" },
+  { label: "Flowers",        href: "flower" },
+  { label: "Shop",           href: "shop" },
+  { label: "Bulk Orders",    href: "bulk" },
+  { label: "Blog",           href: "blog" },
+  { label: "Contact",        href: "contact" },
 ];
