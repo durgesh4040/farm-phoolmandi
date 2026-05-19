@@ -6,7 +6,7 @@ const announcements = [
 ];
 export default function AnnouncementBar() {
   return (
-    <div className="bg-farm text-black text-xs font-medium py-2.5 px-4">
+    <div className=" bg-[#FFF7F2] text-black text-xs font-medium py-2.5 px-4">
       <div className="container flex items-center justify-between">
         <div className="flex items-center gap-6">
           {announcements.map((a) => (
