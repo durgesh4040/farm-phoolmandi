@@ -121,7 +121,6 @@ export default function BookingSection() {
                     <input className={inputCls} placeholder="e.g. Sanjay Gupta"
                            value={form.name} onChange={set("name")} />
                   </div>
-
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
@@ -138,7 +137,6 @@ export default function BookingSection() {
                              value={form.whatsapp} onChange={set("whatsapp")} />
                     </div>
                   </div>
-
                   <div>
                     <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
                       I am a...
