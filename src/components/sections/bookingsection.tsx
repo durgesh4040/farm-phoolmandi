@@ -1,8 +1,6 @@
 "use client";
-
 import { useState } from "react";
 import { motion } from "framer-motion";
-
 const FLOWER_OPTIONS = [
   "🌹 Roses (Gulab)   — ₹8–15/stem",
   "💐 Marigold (Genda) — ₹40–80/kg",
@@ -12,9 +10,7 @@ const FLOWER_OPTIONS = [
   "🌻 Sunflower — Pre-Book",
   "💐 Mixed Flowers",
 ];
-
 const CUSTOMER_TYPES = ["💍 Wedding", "🏪 Retail Shop", "🎪 Event/Decorator", "🕌 Temple", "🏢 Corporate"];
-
 export default function BookingSection() {
   const [form, setForm] = useState({
     name: "", phone: "", whatsapp: "", customerType: "",
@@ -37,12 +33,10 @@ export default function BookingSection() {
   const inputCls =
     "w-full px-4 py-3 rounded-xl border border-bordergray bg-warmwhite text-sm text-darkgray " +
     "placeholder-midgray outline-none focus:border-rose focus:bg-white transition-all";
-
   return (
     <section id="booking" className="py-20 bg-cream">
       <div className="container">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left info */}
           <motion.div
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -57,8 +51,6 @@ export default function BookingSection() {
               Book your flowers in advance — especially for wedding season. We confirm via
               WhatsApp within 24 hours.
             </p>
-
-            {/* Steps */}
             <div className="space-y-5">
               {[
                 { n: "1", t: "Choose Flower & Quantity",  d: "Tell us what you need and how much." },
@@ -78,8 +70,6 @@ export default function BookingSection() {
                 </div>
               ))}
             </div>
-
-            {/* WhatsApp CTA */}
             <a
               href="https://wa.me/919876543210"
               target="_blank"
@@ -91,8 +81,6 @@ export default function BookingSection() {
               💬 WhatsApp Us Directly
             </a>
           </motion.div>
-
-          {/* Right form */}
           <motion.div
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -129,7 +117,6 @@ export default function BookingSection() {
                     <input className={inputCls} placeholder="e.g. Sanjay Gupta"
                            value={form.name} onChange={set("name")} />
                   </div>
-
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
@@ -146,7 +133,6 @@ export default function BookingSection() {
                              value={form.whatsapp} onChange={set("whatsapp")} />
                     </div>
                   </div>
-
                   <div>
                     <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
                       I am a...
@@ -168,7 +154,6 @@ export default function BookingSection() {
                       ))}
                     </div>
                   </div>
-
                   <div>
                     <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
                       Flower *
@@ -180,7 +165,6 @@ export default function BookingSection() {
                       ))}
                     </select>
                   </div>
-
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
@@ -197,7 +181,6 @@ export default function BookingSection() {
                              value={form.date} onChange={set("date")} />
                     </div>
                   </div>
-
                   <div>
                     <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
                       City / Location *
@@ -205,7 +188,6 @@ export default function BookingSection() {
                     <input className={inputCls} placeholder="e.g. Delhi, Jaipur, Agra"
                            value={form.city} onChange={set("city")} />
                   </div>
-
                   <div>
                     <label className="block text-xs font-semibold text-midgray uppercase tracking-wide mb-1.5">
                       Special Requirements
@@ -218,7 +200,6 @@ export default function BookingSection() {
                       onChange={set("note")}
                     />
                   </div>
-
                   <button type="submit" className="btn-rose w-full justify-center py-4 text-base">
                     🌸 Submit Enquiry
                   </button>
