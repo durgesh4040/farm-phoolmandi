@@ -192,6 +192,22 @@
     --sidebar-ring: #5D8C63;
 }
 
+
+.marquee {
+  width: max-content;
+  animation: scroll 15s linear infinite;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -203,3 +219,4 @@
     @apply font-sans;
     }
 }
+
