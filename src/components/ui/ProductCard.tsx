@@ -1,145 +1,98 @@
 "use client";
-
-import Image from "next/image";
-import { useState } from "react";
-import { ShoppingCart, Heart, Star } from "lucide-react";
+import { useState, useCallback } from "react";
+import { ShoppingCart, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 interface Product {
   id: number;
   name: string;
-  hindi: string;
-  price: number;
-  originalPrice: number;
-  rating: number;
-  reviews: number;
-  image: string;
-  badge: string;
-  badgeColor: string;
-  available: boolean;
-  minQty: string;
+  description: string;
+  price: string;
+  imageUrl: string;
+  stockQuantity: number;
+  category?: { name: string };
 }
 
-const BADGE_COLORS: Record<string, string> = {
-  rose:   "bg-rose-light text-rose",
-  farm:   "bg-farm-light text-farm",
-  leaf:   "bg-leaf-light text-leaf",
-  amber:  "bg-amber-100 text-amber-700",
-  purple: "bg-purple-100 text-purple-700",
-};
+interface ProductCardProps {
+  product: Product;
+}
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product }: ProductCardProps) {
   const [wished, setWished] = useState(false);
-  const [added,  setAdded]  = useState(false);
+  const [added, setAdded] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
-  const discount = Math.round(
-    ((product.originalPrice - product.price) / product.originalPrice) * 100
-  );
-
-  const handleAdd = () => {
-    if (!product.available) return;
+  const isAvailable = product.stockQuantity > 0;
+  const isLowStock = product.stockQuantity > 0 && product.stockQuantity < 10;
+  const priceNum = parseFloat(product.price);
+  const displayPrice = isNaN(priceNum) ? product.price : priceNum.toLocaleString("en-IN");
+  const handleAdd = useCallback(() => {
+    if (!isAvailable) return;
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
-  };
+  }, [isAvailable]);
+
+  const toggleWish = useCallback(() => setWished((prev) => !prev), []);
 
   return (
-    <div className="group card-base rounded-lg overflow-hidden flex flex-col">
-      {/* Image */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-cream img-zoom">
+    <article className="group bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
+      <div className="relative w-full aspect-[4/5] overflow-hidden bg-gray-100">
         <Image
-          src="/flower.jpg"
+          src={`http://localhost:4200/${product.imageUrl}`}
           alt={product.name}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-106"
+          sizes="(max-width: 640px) 50vw, 33vw"
+          className="object-cover"
+          onError={() => setImgError(true)}
+          unoptimized
         />
-        {/* Badge */}
-        <span
-          className={cn(
-            "absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full",
-            BADGE_COLORS[product.badgeColor] || BADGE_COLORS.rose
-          )}
-        >
-          {product.badge}
-        </span>
-        {/* Discount */}
-        {discount > 0 && (
-          <span className="absolute top-3 right-10 bg-rose text-white text-[10px]
-                           font-bold px-2 py-0.5 rounded-full">
-            -{discount}%
-          </span>
-        )}
-        {/* Wishlist */}
         <button
-          onClick={() => setWished(!wished)}
-          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90
-                     flex items-center justify-center shadow
-                     hover:bg-white transition-all opacity-0 group-hover:opacity-100"
-          aria-label="Wishlist"
+          onClick={toggleWish}
+          className="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-10"
+          aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
         >
           <Heart
             size={15}
-            className={wished ? "fill-rose text-rose" : "text-midgray"}
+            className={cn(
+              "transition-colors",
+              wished ? "fill-rose-500 text-rose-500" : "text-gray-500"
+            )}
           />
         </button>
-
-        {/* Unavailable overlay */}
-        {!product.available && (
-          <div className="absolute inset-0 bg-darkgray/40 flex items-center justify-center">
-            <span className="bg-white text-darkgray text-xs font-semibold px-4 py-2 rounded-full">
-              📅 Pre-Book Now
-            </span>
-          </div>
-        )}
       </div>
 
-      {/* Body */}
       <div className="p-4 flex flex-col flex-1">
-        <p className="text-[11px] text-midgray mb-0.5">{product.hindi}</p>
-        <h3 className="font-semibold text-sm text-darkgray mb-2 leading-snug">{product.name}</h3>
-
-        {/* Rating */}
-        <div className="flex items-center gap-1.5 mb-3">
-          <div className="stars flex">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                size={11}
-                className={i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "text-lightgray"}
-              />
-            ))}
-          </div>
-          <span className="text-[11px] text-midgray">({product.reviews})</span>
+        <h3 className="font-semibold text-sm text-gray-900 mb-1 leading-snug line-clamp-2">
+          {product.name}
+        </h3>
+        <p className="text-xs text-gray-500 line-clamp-2 mb-3">
+          {product.description}
+        </p>
+        <div className="flex items-baseline gap-2 mb-3">
+          <span className="font-bold text-lg text-gray-900">₹{displayPrice}</span>
+          {isLowStock && (
+            <span className="text-xs text-amber-600 font-medium">
+              Only {product.stockQuantity} left
+            </span>
+          )}
         </div>
-
-        {/* Price */}
-        <div className="flex items-baseline gap-2 mb-1">
-          <span className="font-heading font-bold text-lg text-darkgray">
-            ₹{product.price.toLocaleString("en-IN")}
-          </span>
-          <span className="text-xs text-midgray line-through">
-            ₹{product.originalPrice.toLocaleString("en-IN")}
-          </span>
-        </div>
-        <p className="text-[11px] text-midgray mb-4">Min: {product.minQty}</p>
-
-        {/* CTA */}
         <button
           onClick={handleAdd}
+          disabled={!isAvailable}
           className={cn(
             "mt-auto w-full flex items-center justify-center gap-2 py-2.5 rounded-full text-sm font-semibold transition-all duration-200",
-            product.available
-              ? added
-                ? "bg-farm text-white"
-                : "bg-darkgray text-white hover:bg-farm active:scale-95"
-              : "bg-rose-light text-rose hover:bg-rose hover:text-white"
+            !isAvailable
+              ? "bg-rose-50 text-rose-600 cursor-not-allowed"
+              : added
+                ? "bg-green-600 text-white"
+                : "bg-gray-900 text-white hover:bg-green-600 active:scale-95"
           )}
         >
           <ShoppingCart size={14} />
-          {product.available
-            ? added ? "✓ Added to Cart" : "Add to Cart"
-            : "Pre-Book Now"}
+          {isAvailable ? (added ? "Added to Cart" : "Add to Cart") : "Out of Stock"}
         </button>
       </div>
-    </div>
+    </article>
   );
 }

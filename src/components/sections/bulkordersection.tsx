@@ -5,12 +5,11 @@ import { BULK_OCCASIONS } from "@/lib/data";
 
 export default function BulkOrdersSection() {
   return (
-    <section
+    <div
       id="bulk"
-      className="relative py-20 overflow-hidden"
+      className="relative py-20 overflow-hidden p-4"
       style={{ background: "linear-gradient(135deg, #1e3d27 0%, #305D3D 50%, #2a5035 100%)" }}
     >
-      {/* Decorative petals */}
       <div className="absolute inset-0 pointer-events-none opacity-10">
         {["🌸","🌺","🌼","💐","🌹"].map((e, i) => (
           <span
@@ -78,6 +77,6 @@ export default function BulkOrdersSection() {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

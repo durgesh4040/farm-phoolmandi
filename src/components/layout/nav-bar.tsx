@@ -70,7 +70,7 @@ export default function Navbar() {
                     </button>
                     <Link
                         href="#booking"
-                        className="ml-2 hidden rounded-full bg-[#305D3D] px-6 py-3 text-sm font-medium  transition-all duration-300 hover:scale-105 hover:bg-[#264B31] sm:inline-flex"
+                        className="ml-2 hidden rounded-full bg-[#678d71] px-6 py-3 text-sm font-medium  transition-all duration-300 hover:scale-105 hover:bg-[#7aa587] sm:inline-flex"
                     >
                         Shop Now
                     </Link>
@@ -103,7 +103,7 @@ export default function Navbar() {
                         ))}
                         <Link
                             href="#booking"
-                            className="mt-3 flex justify-center  text-muted-foreground rounded-full bg-[#375840] px-6 py-3 text-sm font-medium transition-all duration-300 hover:bg-[#264B31]"
+                            className="mt-3 flex justify-center  text-muted-foreground rounded-full bg-[#92a597] px-6 py-3 text-sm font-medium transition-all duration-300 hover:bg-[#264B31]"
                         >
                             Shop Now
                         </Link>
