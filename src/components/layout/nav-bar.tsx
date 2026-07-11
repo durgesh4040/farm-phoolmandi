@@ -101,12 +101,6 @@ export default function Navbar() {
                                 {link.label}
                             </Link>
                         ))}
-                        <Link
-                            href="#booking"
-                            className="mt-3 flex justify-center  text-muted-foreground rounded-full bg-[#92a597] px-6 py-3 text-sm font-medium transition-all duration-300 hover:bg-[#264B31]"
-                        >
-                            Shop Now
-                        </Link>
                     </nav>
                 </div>
             )}

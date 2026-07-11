@@ -1,9 +1,9 @@
 import axiosServices from "@/lib/axios";
 
-export function getCategoryList(query?: string) {
+export function getCategoryList(query?: string): Promise<any> {
   return new Promise((resolve, reject) => {
     axiosServices
-      .get(`/api/products${query ?? ""}`)
+      .get(`/api/categories${query ?? ""}`)
       .then((res) => {
         resolve(res.data);
       })
@@ -13,10 +13,10 @@ export function getCategoryList(query?: string) {
   });
 }
 
-export function getFlowerById(id: number) {
+export function getCategoryId(id: number): Promise<any> {
   return new Promise((resolve, reject) => {
     axiosServices
-      .get(`/api/products/${id}`)
+      .get(`/api/categories/${id}`)
       .then((res) => {
         resolve(res.data);
       })
@@ -26,24 +26,10 @@ export function getFlowerById(id: number) {
   });
 }
 
-export function deleteFlower(id: number) {
+export function deleteCategory(id: number): Promise<any> {
   return new Promise((resolve, reject) => {
     axiosServices
-      .delete(`/api/products/${id}`)
-      .then((res) => {
-        resolve(res.data);
-      })
-      .catch((err) => {
-        reject(err);
-      });
-  });
-}
-
-
-export function createFlower(values: unknown) {
-  return new Promise((resolve, reject) => {
-    axiosServices
-      .post("/api/products", values)
+      .delete(`/api/categories/${id}`)
       .then((res) => {
         resolve(res.data);
       })
@@ -54,10 +40,24 @@ export function createFlower(values: unknown) {
 }
 
 
-export function updateFlower(id: number, values: unknown) {
+export function  createCategory(values: unknown): Promise<any> {
   return new Promise((resolve, reject) => {
     axiosServices
-      .put(`/api/products/${id}`, values)
+      .post("/api/categories", values)
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+}
+
+
+export function updateCategory(id: number, values: unknown): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axiosServices
+      .put(`/api/categories/${id}`, values)
       .then((res) => {
         resolve(res.data);
       })

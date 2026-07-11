@@ -150,8 +150,6 @@ export const NAV_LINKS = [
   { label: "Home",           href: "/" },
   { label: "About Us",       href: "about" },
   { label: "Flowers",        href: "flower" },
-  { label: "Shop",           href: "shop" },
-  { label: "Bulk Orders",    href: "bulk" },
   { label: "Blog",           href: "blog" },
   { label: "Contact",        href: "contact" },
 ];

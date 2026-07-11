@@ -14,7 +14,6 @@ export default function Page() {
         <FeaturedFlowers />
         <BulkOrdersSection />
         <TestimonialsSection />
-        <Footer/>
       </div>
     </>
   )

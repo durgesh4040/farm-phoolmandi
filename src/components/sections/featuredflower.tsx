@@ -117,7 +117,7 @@ export default function FeaturedFlowers() {
           </div>
         )}
         <div className="text-center mt-10">
-          <Link href="/flowers" className="inline-flex items-center gap-2 px-6 py-3 border border-rose-600 text-rose-600 rounded-full hover:bg-rose-600 hover:text-white transition-colors">
+          <Link href="/flower" className="inline-flex items-center gap-2 px-6 py-3 border border-rose-600 text-rose-600 rounded-full hover:bg-rose-600 hover:text-white transition-colors">
             View All Flowers →
           </Link>
         </div>

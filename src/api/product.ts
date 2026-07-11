@@ -1,6 +1,6 @@
 import axiosServices from "@/lib/axios";
 
-export function getFlowersList(query?: string) {
+export function getFlowersList(query?: string): Promise<any> {
   return new Promise((resolve, reject) => {
     axiosServices
       .get(`/api/products${query ?? ""}`)
@@ -13,7 +13,7 @@ export function getFlowersList(query?: string) {
   });
 }
 
-export function getFlowerById(id: number) {
+export function getFlowerById(id: number): Promise<any> {
   return new Promise((resolve, reject) => {
     axiosServices
       .get(`/api/products/${id}`)
@@ -26,7 +26,7 @@ export function getFlowerById(id: number) {
   });
 }
 
-export function deleteFlower(id: number) {
+export function deleteFlower(id: number): Promise<any> {
   return new Promise((resolve, reject) => {
     axiosServices
       .delete(`/api/products/${id}`)
@@ -40,7 +40,7 @@ export function deleteFlower(id: number) {
 }
 
 
-export function createFlower(values: unknown) {
+export function createFlower(values: unknown): Promise<any> {
   return new Promise((resolve, reject) => {
     axiosServices
       .post("/api/products", values)
@@ -54,7 +54,7 @@ export function createFlower(values: unknown) {
 }
 
 
-export function updateFlower(id: number, values: unknown) {
+export function updateFlower(id: number, values: unknown): Promise<any> {
   return new Promise((resolve, reject) => {
     axiosServices
       .put(`/api/products/${id}`, values)

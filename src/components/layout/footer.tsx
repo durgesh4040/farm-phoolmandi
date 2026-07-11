@@ -29,47 +29,6 @@ const footerLinks = {
 export default function Footer() {
   return (
     <footer className="bg-[#305D3D] text-white">
-      {/* Decorative Top Border */}
-      <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#E96D8E]/60 to-transparent" />
-
-      {/* Newsletter Section */}
-      <div className="border-b border-white/10">
-        <div className="container mx-auto px-4 py-14">
-          <div className="flex flex-col items-center justify-between gap-8 lg:flex-row">
-            <div>
-              <span className="mb-3 inline-block rounded-full bg-[#E96D8E]/15 px-4 py-1 text-xs font-medium text-[#E96D8E]">
-                Newsletter
-              </span>
-
-              <h3 className="text-3xl font-bold">
-                🌸 Stay Fresh with PhoolMandi
-              </h3>
-
-              <p className="mt-2 max-w-lg text-white/70">
-                Get seasonal flower updates, farming insights,
-                exclusive discounts and special offers directly
-                from our farm.
-              </p>
-            </div>
-
-            <form className="flex w-full max-w-xl gap-3">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                className="flex-1 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-white placeholder:text-white/40 outline-none transition-all focus:border-[#E96D8E]"
-              />
-
-              <button
-                type="submit"
-                className="flex items-center gap-2 rounded-full bg-[#E96D8E] px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-[#d95a7d]"
-              >
-                Subscribe
-                <Send size={16} />
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
 
       {/* Main Footer */}
       <div className="container mx-auto px-4 py-16">
@@ -110,23 +69,6 @@ export default function Footer() {
                 💯 Quality Assured
               </span>
             </div>
-
-            {/* Social Icons */}
-            {/* <div className="mt-8 flex gap-3">
-              {[
-                { icon: Facebook, href: "#" },
-                { icon: Instagram, href: "#" },
-                { icon: Youtube, href: "#" },
-              ].map((social, index) => (
-                <Link
-                  key={index}
-                  href={social.href}
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-all duration-300 hover:-translate-y-1 hover:bg-[#E96D8E]"
-                >
-                  <social.icon size={18} />
-                </Link>
-              ))}
-            </div> */}
           </div>
 
           {/* Footer Links */}
