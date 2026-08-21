@@ -148,8 +148,8 @@ export const TRUST_FEATURES = [
 ];
 export const NAV_LINKS = [
   { label: "Home",           href: "/" },
-  { label: "About Us",       href: "about" },
-  { label: "Flowers",        href: "flower" },
-  { label: "Blog",           href: "blog" },
-  { label: "Contact",        href: "contact" },
+  { label: "Product",        href: "/flower" },
+  { label: "Blog",           href: "/blog" },
+  { label: "About",          href: "/about" },
+  { label: "Contact",        href: "/contact" },
 ];

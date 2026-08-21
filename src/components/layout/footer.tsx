@@ -11,18 +11,17 @@ import {
 
 const footerLinks = {
   "Quick Links": [
-    "Home",
-    "About Us",
-    "Flowers",
-    "Shop",
-    "Bulk Orders",
-    "Contact",
+    { label: "Home", href: "/" },
+    { label: "Product", href: "/flower" },
+    { label: "Blog", href: "/blog" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
   ],
   Information: [
-    "Blog",
-    "Flower Care Tips",
-    "Terms & Conditions",
-    "Privacy Policy",
+    { label: "Blog", href: "/blog" },
+    { label: "Flower Care Tips", href: "/blog" },
+    { label: "Terms & Conditions", href: "#" },
+    { label: "Privacy Policy", href: "#" },
   ],
 };
 
@@ -78,12 +77,12 @@ export default function Footer() {
 
               <ul className="space-y-3">
                 {links.map((link) => (
-                  <li key={link}>
+                  <li key={link.label}>
                     <Link
-                      href="#"
+                      href={link.href}
                       className="text-white/65 transition-all duration-300 hover:translate-x-1 hover:text-[#E96D8E]"
                     >
-                      {link}
+                      {link.label}
                     </Link>
                   </li>
                 ))}
@@ -100,7 +99,7 @@ export default function Footer() {
             <div className="space-y-4 text-white/65">
               <div className="flex gap-3">
                 <Phone size={18} className="text-[#E96D8E]" />
-                <span>+91 98765 43210</span>
+                <span>+91 73032 31231</span>
               </div>
 
               <div className="flex gap-3">

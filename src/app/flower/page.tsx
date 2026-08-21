@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useCallback } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
@@ -11,14 +11,13 @@ import {
   AlertCircle,
   RefreshCw,
   Loader2,
+  Leaf,
 } from "lucide-react";
 import { getFlowersList } from "@/api/product";
 import { getCategoryList } from "@/api/category";
 import { useDebounce } from "@/hooks/useDebounce";
 import ProductCard from "@/components/ui/ProductCard";
 import Pagination from "@/components/ui/Pagination";
-
-// ─── Types ───────────────────────────────────────────────────────
 
 interface Flower {
   id: number;
@@ -28,10 +27,7 @@ interface Flower {
   sku: string | null;
   imageUrl: string | null;
   stockQuantity: number;
-  category?: {
-    id: number;
-    name: string;
-  };
+  category?: { id: number; name: string };
 }
 
 interface Category {
@@ -39,19 +35,32 @@ interface Category {
   name: string;
 }
 
-// ─── Component ───────────────────────────────────────────────────
+/* ─── Skeleton card ─────────────────────────────────────────── */
+function SkeletonCard() {
+  return (
+    <div className="rounded-2xl bg-white border border-gray-100 overflow-hidden animate-pulse">
+      <div className="aspect-[4/5] bg-gray-200" />
+      <div className="p-4 space-y-2.5">
+        <div className="h-3 w-16 bg-gray-200 rounded-full" />
+        <div className="h-4 w-3/4 bg-gray-200 rounded-full" />
+        <div className="h-3 w-full bg-gray-200 rounded-full" />
+        <div className="h-3 w-2/3 bg-gray-200 rounded-full" />
+        <div className="h-5 w-20 bg-gray-200 rounded-full mt-2" />
+        <div className="h-10 w-full bg-gray-200 rounded-xl mt-1" />
+      </div>
+    </div>
+  );
+}
 
-export default function FeaturedFlowers() {
+export default function FlowerPage() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Read initial state from URL
   const initialSearch = searchParams.get("search") || "";
   const initialCategory = searchParams.get("category") || "all";
   const initialPage = parseInt(searchParams.get("page") || "1", 10);
-  const initialLimit = parseInt(searchParams.get("limit") || "10", 10);
+  const initialLimit = parseInt(searchParams.get("limit") || "12", 10);
 
-  // Local state
   const [flowers, setFlowers] = useState<Flower[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -65,25 +74,22 @@ export default function FeaturedFlowers() {
     { id: "all", name: "All Flowers" },
   ]);
 
-  // Debounced search for API calls
   const debouncedSearch = useDebounce(search, 300);
 
-  // ─── Fetch Categories ──────────────────────────────────────────
+  /* ── Load categories ── */
   useEffect(() => {
     getCategoryList()
       .then((res) => {
-        const list: Category[] = (res?.data ?? res ?? []).map((c: any) => ({
+        const list: Category[] = (res?.data ?? res ?? []).map((c: { id: string | number; name: string }) => ({
           id: c.id,
           name: c.name,
         }));
         setCategories([{ id: "all", name: "All Flowers" }, ...list]);
       })
-      .catch(() => {
-        // silently fail
-      });
+      .catch(() => {});
   }, []);
 
-  // ─── Fetch Data ────────────────────────────────────────────────
+  /* ── Fetch flowers ── */
   const fetchFlowers = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -96,338 +102,249 @@ export default function FeaturedFlowers() {
         params.set("categoryId", activeCategory);
 
       const response = await getFlowersList(`?${params.toString()}`);
-
-      const items = response?.data ?? [];
-      setFlowers(items);
-
+      setFlowers(response?.data ?? []);
       const pagination = response?.pagination;
       if (pagination) {
         setTotalPages(pagination.totalPages ?? 1);
         setTotalItems(pagination.totalDocs ?? 0);
       }
-    } catch (err: any) {
-      setError(err?.response?.data?.message ?? "Unable to load flowers.");
+    } catch (err: unknown) {
+      const msg =
+        err instanceof Error ? err.message : "Unable to load flowers.";
+      setError(msg);
     } finally {
       setLoading(false);
     }
   }, [debouncedSearch, activeCategory, page, limit]);
 
-  useEffect(() => {
-    fetchFlowers();
-  }, [fetchFlowers]);
+  useEffect(() => { fetchFlowers(); }, [fetchFlowers]);
+  useEffect(() => { setPage(1); }, [debouncedSearch, activeCategory]);
 
-  // Reset page to 1 when search or category changes
-  useEffect(() => {
-    setPage(1);
-  }, [debouncedSearch, activeCategory]);
-
-  // ─── Sync URL with State ───────────────────────────────────────
+  /* ── Sync URL ── */
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
-
     if (debouncedSearch) params.set("search", debouncedSearch);
     else params.delete("search");
-
-    if (activeCategory && activeCategory !== "all")
-      params.set("category", activeCategory);
+    if (activeCategory && activeCategory !== "all") params.set("category", activeCategory);
     else params.delete("category");
-
     params.set("page", String(page));
     params.set("limit", String(limit));
-
-    const newUrl = `${pathname}?${params.toString()}`;
-    window.history.replaceState(null, "", newUrl);
+    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
   }, [debouncedSearch, activeCategory, page, limit, pathname, searchParams]);
 
-  // ─── Handlers ──────────────────────────────────────────────────
-  const handleSearchChange = (value: string) => {
-    setSearch(value);
-  };
-
-  const handleCategoryChange = (categoryId: string | number) => {
-    setActiveCategory(String(categoryId));
-  };
-
-  const clearSearch = () => {
-    setSearch("");
-  };
-
-  const clearAllFilters = () => {
-    setSearch("");
-    setActiveCategory("all");
-    setPage(1);
-  };
-
+  /* ── Handlers ── */
+  const clearSearch = () => setSearch("");
+  const clearAllFilters = () => { setSearch(""); setActiveCategory("all"); setPage(1); };
   const handlePageChange = (newPage: number) => {
     if (newPage < 1 || newPage > totalPages) return;
     setPage(newPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const handleLimitChange = (newLimit: number) => { setLimit(newLimit); setPage(1); };
 
-  const handleLimitChange = (newLimit: number) => {
-    setLimit(newLimit);
-    setPage(1);
-  };
+  const hasActiveFilters = !!(search || activeCategory !== "all");
+  const activeCategoryName = categories.find((c) => String(c.id) === activeCategory)?.name || "";
 
-  const hasActiveFilters = search || activeCategory !== "all";
-
-  const activeCategoryName =
-    categories.find((c) => String(c.id) === activeCategory)?.name || "";
-
-  // ─── Render: Loading Skeleton ──────────────────────────────────
-  if (loading && flowers.length === 0) {
-    return (
-      <section id="shop" className="py-20 bg-[#faf9f6]">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center mb-12">
-            <div className="h-4 w-24 bg-gray-200 rounded-full mx-auto mb-4 animate-pulse" />
-            <div className="h-10 w-64 bg-gray-200 rounded-xl mx-auto mb-3 animate-pulse" />
-            <div className="h-4 w-48 bg-gray-200 rounded-full mx-auto animate-pulse" />
-          </div>
-          <div className="h-14 bg-gray-200 rounded-2xl mb-8 animate-pulse" />
-          <div className="flex gap-3 mb-8 overflow-hidden">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="h-10 w-28 bg-gray-200 rounded-full flex-shrink-0 animate-pulse"
-              />
-            ))}
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {[...Array(8)].map((_, i) => (
-              <div key={i} className="rounded-2xl bg-gray-200 h-96 animate-pulse" />
-            ))}
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  // ─── Render: Error State ───────────────────────────────────────
-  if (error && flowers.length === 0) {
-    return (
-      <section id="shop" className="py-20 bg-[#faf9f6]">
-        <div className="container mx-auto px-4 max-w-7xl text-center">
-          <div className="bg-white rounded-2xl p-12 shadow-sm border border-gray-100 max-w-md mx-auto">
-            <AlertCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-            <h3 className="text-xl font-bold text-gray-900 mb-2">
-              Something went wrong
-            </h3>
-            <p className="text-gray-600 mb-6">{error}</p>
-            <button
-              onClick={fetchFlowers}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-rose-600 text-white rounded-full hover:bg-rose-700 transition-colors font-medium"
-            >
-              <RefreshCw className="h-4 w-4" /> Try Again
-            </button>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  /* ═══════════════════════════════════════════════════════════ */
 
   return (
-    <section id="shop" className="py-16 md:py-24 bg-[#faf9f6]">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-10">
-          <motion.span
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 bg-rose-50 text-rose-600 rounded-full text-sm font-semibold mb-4"
+    <div className="min-h-screen bg-[#faf9f6]">
+
+      {/* ── Page hero banner ── */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-rose-50 via-[#FFF7F2] to-green-50 border-b border-rose-100">
+        <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-rose-200/30 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-16 -left-16 h-56 w-56 rounded-full bg-green-200/20 blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl px-4 py-14 md:py-20 md:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 bg-rose-100 text-rose-600 rounded-full text-sm font-semibold mb-5"
           >
             <Flower2 className="h-4 w-4" />
             Farm Picks
-          </motion.span>
+          </motion.div>
 
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4"
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08 }}
+            className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4 tracking-tight"
           >
             Our Beautiful{" "}
             <span className="text-rose-600 italic">Collection</span>
-          </motion.h2>
+          </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.16 }}
+            className="text-gray-500 text-lg max-w-xl mx-auto leading-relaxed mb-8"
           >
-            Handpicked blooms delivered with love and care. Discover premium
-            flowers directly from our farm.
+            Handpicked blooms delivered with love. Discover premium flowers directly from our farm.
           </motion.p>
 
+          {/* Search bar inside hero */}
           <motion.div
-            initial={{ opacity: 0, scaleX: 0 }}
-            whileInView={{ opacity: 1, scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="flex items-center justify-center gap-3 mt-6"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 }}
+            className="relative max-w-xl mx-auto"
           >
-            <span className="block h-px w-16 bg-rose-200" />
-            <span className="text-2xl">🌿</span>
-            <span className="block h-px w-16 bg-rose-200" />
-          </motion.div>
-        </div>
-
-        {/* ─── Search Bar ────────────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="relative max-w-2xl mx-auto mb-8"
-        >
-          <div className="relative group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-rose-500 transition-colors pointer-events-none" />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 pointer-events-none" />
             <input
               type="text"
               placeholder="Search roses, lilies, bouquets..."
               value={search}
-              onChange={(e) => handleSearchChange(e.target.value)}
-              className="w-full pl-14 pr-12 py-4 bg-white border-2 border-gray-100 rounded-2xl focus:outline-none focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10 transition-all text-gray-900 placeholder:text-gray-400 text-base shadow-sm"
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full pl-14 pr-12 py-4 bg-white border-2 border-white rounded-2xl focus:outline-none focus:border-rose-400 focus:ring-4 focus:ring-rose-400/10 transition-all text-gray-900 placeholder:text-gray-400 text-base shadow-lg shadow-rose-100/40"
             />
             {search && (
               <button
                 onClick={clearSearch}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 p-1.5 hover:bg-gray-100 rounded-full transition-colors"
                 aria-label="Clear search"
               >
                 <X className="h-4 w-4 text-gray-500" />
               </button>
             )}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
+      </div>
 
-        {/* ─── Category Filters ──────────────────────────────────── */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-          className="mb-10"
-        >
-          <div className="flex items-center gap-2 mb-4">
-            <SlidersHorizontal className="h-4 w-4 text-gray-500" />
-            <span className="text-sm font-medium text-gray-600">
-              Filter by Category
-            </span>
-          </div>
+      {/* ── Main content ── */}
+      <section id="shop" className="mx-auto max-w-7xl px-4 md:px-8 py-10">
 
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
+        {/* Category filter strip */}
+        <div className="mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <SlidersHorizontal className="h-4 w-4 text-gray-400" />
+            <span className="text-sm font-medium text-gray-500">Filter by Category</span>
+          </div>
+          <div className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
             {categories.map((cat) => {
               const isActive = activeCategory === String(cat.id);
               return (
                 <button
                   key={cat.id}
-                  onClick={() => handleCategoryChange(cat.id)}
-                  className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap transition-all flex-shrink-0 ${
+                  onClick={() => setActiveCategory(String(cat.id))}
+                  className={`flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-200 flex-shrink-0 ${
                     isActive
-                      ? "bg-rose-600 text-white shadow-lg shadow-rose-600/25 scale-105"
+                      ? "bg-rose-600 text-white shadow-md shadow-rose-600/25 scale-105"
                       : "bg-white text-gray-600 border border-gray-200 hover:border-rose-300 hover:text-rose-600 hover:bg-rose-50"
                   }`}
                 >
                   {cat.name}
-                  {isActive && (
-                    <motion.span layoutId="activeCategory" className="ml-1">
-                      <X className="h-3 w-3" />
-                    </motion.span>
-                  )}
+                  {isActive && <X className="h-3 w-3 ml-0.5" />}
                 </button>
               );
             })}
           </div>
-        </motion.div>
+        </div>
 
-        {/* ─── Results Header ────────────────────────────────────── */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-          <div className="flex items-center gap-3">
-            <p className="text-sm text-gray-500">
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="h-3 w-3 animate-spin" />
-                  Loading...
-                </span>
-              ) : (
-                <>
-                  Showing{" "}
-                  <span className="font-semibold text-gray-900">
-                    {flowers.length}
-                  </span>{" "}
-                  {flowers.length === 1 ? "flower" : "flowers"}
-                  {hasActiveFilters && (
-                    <span className="text-gray-400 ml-1">
-                      (filtered from {totalItems} total)
-                    </span>
-                  )}
-                </>
-              )}
-            </p>
+        {/* Results bar */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
+          <div className="flex items-center flex-wrap gap-2">
+            {loading ? (
+              <span className="flex items-center gap-2 text-sm text-gray-500">
+                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                Loading flowers...
+              </span>
+            ) : (
+              <span className="text-sm text-gray-600">
+                Showing{" "}
+                <span className="font-bold text-gray-900">{flowers.length}</span>{" "}
+                {flowers.length === 1 ? "flower" : "flowers"}
+                {hasActiveFilters && (
+                  <span className="text-gray-400 ml-1">(of {totalItems} total)</span>
+                )}
+              </span>
+            )}
 
+            {/* Active filter chips */}
             {hasActiveFilters && (
-              <div className="flex items-center gap-2 flex-wrap">
+              <>
                 {search && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-rose-50 text-rose-700 rounded-full text-xs font-medium">
-                    Search: &quot;{search}&quot;
-                    <button
-                      onClick={clearSearch}
-                      className="p-0.5 hover:bg-rose-100 rounded-full"
-                    >
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold">
+                    &ldquo;{search}&rdquo;
+                    <button onClick={clearSearch} className="p-0.5 hover:bg-rose-100 rounded-full">
                       <X className="h-3 w-3" />
                     </button>
                   </span>
                 )}
                 {activeCategory !== "all" && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-rose-50 text-rose-700 rounded-full text-xs font-medium">
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-rose-50 text-rose-700 rounded-full text-xs font-semibold">
+                    <Leaf className="h-3 w-3" />
                     {activeCategoryName}
-                    <button
-                      onClick={() => handleCategoryChange("all")}
-                      className="p-0.5 hover:bg-rose-100 rounded-full"
-                    >
+                    <button onClick={() => setActiveCategory("all")} className="p-0.5 hover:bg-rose-100 rounded-full">
                       <X className="h-3 w-3" />
                     </button>
                   </span>
                 )}
                 <button
                   onClick={clearAllFilters}
-                  className="text-xs text-rose-600 hover:text-rose-700 font-medium underline underline-offset-2"
+                  className="text-xs text-rose-600 hover:text-rose-700 font-semibold underline underline-offset-2"
                 >
                   Clear all
                 </button>
-              </div>
+              </>
             )}
           </div>
         </div>
 
-        {/* ─── Product Grid ──────────────────────────────────────── */}
-        {flowers.length === 0 && !loading ? (
+        {/* ── Error state ── */}
+        {error && flowers.length === 0 && (
+          <div className="text-center py-24">
+            <div className="bg-white rounded-3xl p-12 shadow-sm border border-gray-100 max-w-sm mx-auto">
+              <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-5">
+                <AlertCircle className="h-8 w-8 text-red-400" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Something went wrong</h3>
+              <p className="text-gray-500 text-sm mb-6">{error}</p>
+              <button
+                onClick={fetchFlowers}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-rose-600 text-white rounded-full hover:bg-rose-700 transition-colors font-semibold"
+              >
+                <RefreshCw className="h-4 w-4" /> Try Again
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── Skeleton loading ── */}
+        {loading && flowers.length === 0 && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {[...Array(12)].map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        )}
+
+        {/* ── Empty state ── */}
+        {!loading && !error && flowers.length === 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200"
+            className="text-center py-24 bg-white rounded-3xl border border-dashed border-gray-200"
           >
-            <Flower2 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              No flowers found
-            </h3>
-            <p className="text-gray-500 mb-2 max-w-md mx-auto">
-              We couldn&apos;t find any flowers matching your criteria.
+            <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Flower2 className="h-10 w-10 text-rose-300" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No flowers found</h3>
+            <p className="text-gray-500 max-w-xs mx-auto mb-6 text-sm">
+              We couldn&apos;t find any flowers matching your criteria. Try adjusting your filters.
             </p>
             {hasActiveFilters && (
               <button
                 onClick={clearAllFilters}
-                className="mt-4 px-6 py-2.5 bg-rose-600 text-white rounded-full hover:bg-rose-700 transition-colors font-medium"
+                className="px-6 py-2.5 bg-rose-600 text-white rounded-full hover:bg-rose-700 transition-colors font-semibold text-sm"
               >
                 Clear Filters
               </button>
             )}
           </motion.div>
-        ) : (
+        )}
+
+        {/* ── Product grid ── */}
+        {flowers.length > 0 && (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             <AnimatePresence mode="popLayout">
               {flowers.map((flower, i) => (
@@ -437,7 +354,7 @@ export default function FeaturedFlowers() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3, delay: Math.min(i * 0.05, 0.4) }}
+                  transition={{ duration: 0.3, delay: Math.min(i * 0.04, 0.35) }}
                 >
                   <ProductCard product={flower} />
                 </motion.div>
@@ -446,22 +363,28 @@ export default function FeaturedFlowers() {
           </div>
         )}
 
+        {/* ── Inline loading spinner (page change) ── */}
         {loading && flowers.length > 0 && (
-          <div className="flex justify-center py-8">
-            <Loader2 className="h-8 w-8 text-rose-600 animate-spin" />
+          <div className="flex justify-center py-10">
+            <div className="flex items-center gap-3 text-rose-600">
+              <Loader2 className="h-6 w-6 animate-spin" />
+              <span className="text-sm font-medium">Updating results...</span>
+            </div>
           </div>
         )}
 
-        {/* ─── Pagination ─────────────────────────────────────────── */}
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          totalItems={totalItems}
-          limit={limit}
-          onPageChange={handlePageChange}
-          onLimitChange={handleLimitChange}
-        />
-      </div>
-    </section>
+        {/* ── Pagination ── */}
+        {!loading && !error && flowers.length > 0 && (
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            limit={limit}
+            onPageChange={handlePageChange}
+            onLimitChange={handleLimitChange}
+          />
+        )}
+      </section>
+    </div>
   );
 }
