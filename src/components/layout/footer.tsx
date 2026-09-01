@@ -1,98 +1,170 @@
+
+"use client";
+
 import Link from "next/link";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Send,
+} from "lucide-react";
+
 const footerLinks = {
-  "Quick Links": ["Home", "About Us", "Flowers", "Shop", "Bulk Orders", "Contact"],
-  "Customer Care": ["My Account", "Track Order", "Shipping Policy", "Return Policy", "FAQs"],
-  "Information": ["Blog", "Care Tips", "Terms & Conditions", "Privacy Policy"],
+  "Quick Links": [
+    { label: "Home", href: "/" },
+    { label: "Product", href: "/flower" },
+    { label: "Blog", href: "/blog" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
+  ],
+  Information: [
+    { label: "Blog", href: "/blog" },
+    { label: "Flower Care Tips", href: "/blog" },
+    { label: "Terms & Conditions", href: "#" },
+    { label: "Privacy Policy", href: "#" },
+  ],
 };
+
 export default function Footer() {
   return (
-    <footer className="bg-farm text-white">
-      <div className="border-b border-white/10">
-        <div className="container py-12 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-h5 font-heading mb-1">🌸 Stay Fresh with PhoolMandi</h3>
-            <p className="text-white/60 text-sm">Get seasonal offers, farm updates & more.</p>
-          </div>
-          <form className="flex gap-2 w-full max-w-md" onSubmit={(e) => e.preventDefault()}>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className="flex-1 px-4 py-3 rounded-full bg-white/10 border border-white/20
-                         text-white placeholder-white/40 text-sm outline-none
-                         focus:border-white/50 transition-colors"
-            />
-            <button type="submit" className="bg-rose hover:bg-rose-dark px-6 py-3 rounded-full
-                                            text-sm font-semibold transition-colors whitespace-nowrap">
-              Subscribe →
-            </button>
-          </form>
-        </div>
-      </div>
-      <div className="container py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+    <footer className="bg-[#305D3D] text-white">
+
+      {/* Main Footer */}
+      <div className="container mx-auto px-4 py-16">
+        <div className="grid gap-12 lg:grid-cols-5">
+          {/* Brand Section */}
           <div className="lg:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-2xl">🌸</span>
+            <div className="mb-5 flex items-center gap-3">
+              <span className="text-4xl">🌸</span>
+
               <div>
-                <span className="font-heading font-bold text-xl leading-none">PhoolMandi</span>
-                <span className="block text-[10px] text-white/50 tracking-widest uppercase mt-0.5">
-                  Flower Farm
-                </span>
+                <h2 className="text-3xl font-bold">
+                  Phool<span className="text-[#E96D8E]">Mandi</span>
+                </h2>
+
+                <p className="text-xs uppercase tracking-[0.25em] text-white/40">
+                  Premium Flower Farm
+                </p>
               </div>
             </div>
-            <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-6">
-              Bringing nature&apos;s beauty to your life. Fresh, natural and handpicked flowers
-              from our farm to your home.
+
+            <p className="max-w-md leading-relaxed text-white/65">
+              Premium quality Gypsophila, Carnation, Chrysanthemum
+              and seasonal flowers grown with care and delivered
+              fresh from our farm directly to your doorstep.
             </p>
-            <div className="flex gap-3">
-              {["FB", "IG", "WA", "YT"].map((s) => (
-                <a
-                  key={s}
-                  href="#"
-                  className="w-9 h-9 rounded-full border border-white/20 flex items-center
-                             justify-center text-xs font-semibold hover:bg-white/10
-                             hover:border-white/40 transition-all"
-                >
-                  {s}
-                </a>
-              ))}
+
+            {/* Trust Badges */}
+            <div className="mt-8 flex flex-wrap gap-3">
+              <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                🌱 Farm Fresh
+              </span>
+
+              <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                🚚 Fast Delivery
+              </span>
+
+              <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm">
+                💯 Quality Assured
+              </span>
             </div>
           </div>
+
+          {/* Footer Links */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
-              <h4 className="font-semibold text-sm tracking-wide mb-5">{title}</h4>
+              <h4 className="mb-5 text-lg font-semibold">{title}</h4>
+
               <ul className="space-y-3">
-                {links.map((l) => (
-                  <li key={l}>
+                {links.map((link) => (
+                  <li key={link.label}>
                     <Link
-                      href="#"
-                      className="text-white/55 text-sm hover:text-white transition-colors"
+                      href={link.href}
+                      className="text-white/65 transition-all duration-300 hover:translate-x-1 hover:text-[#E96D8E]"
                     >
-                      {l}
+                      {link.label}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
+
+          {/* Contact */}
           <div>
-            <h4 className="font-semibold text-sm tracking-wide mb-5">Contact Us</h4>
-            <ul className="space-y-3 text-sm text-white/60">
-              <li className="flex gap-2"><span>📞</span> +91 98765 43210</li>
-              <li className="flex gap-2"><span>✉️</span> info@phoolmandi.com</li>
-              <li className="flex gap-2 leading-relaxed">
-                <span>📍</span>
-                <span>Village – Phoolpur, District - Nashik, Maharashtra - 422101</span>
-              </li>
-            </ul>
+            <h4 className="mb-5 text-lg font-semibold">
+              Contact Us
+            </h4>
+
+            <div className="space-y-4 text-white/65">
+              <div className="flex gap-3">
+                <Phone size={18} className="text-[#E96D8E]" />
+                <span>+91 73032 31231</span>
+              </div>
+
+              <div className="flex gap-3">
+                <Mail size={18} className="text-[#E96D8E]" />
+                <span>info@phoolmandi.com</span>
+              </div>
+
+              <div className="flex gap-3">
+                <MapPin
+                  size={18}
+                  className="mt-1 flex-shrink-0 text-[#E96D8E]"
+                />
+                <span>
+                  Village Phoolpur,
+                  <br />
+                  Nashik, Maharashtra 422101
+                </span>
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="mt-8 grid grid-cols-2 gap-4">
+              <div>
+                <h5 className="text-2xl font-bold text-[#E96D8E]">
+                  500+
+                </h5>
+                <p className="text-xs text-white/50">
+                  Happy Customers
+                </p>
+              </div>
+
+              <div>
+                <h5 className="text-2xl font-bold text-[#E96D8E]">
+                  100%
+                </h5>
+                <p className="text-xs text-white/50">
+                  Farm Fresh
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Bottom Footer */}
       <div className="border-t border-white/10">
-        <div className="container py-5 flex flex-col sm:flex-row items-center justify-between
-                        gap-3 text-xs text-white/40">
-          <span>© 2024 PhoolMandi Flower Farm. All Rights Reserved.</span>
-          <span>Designed with 🌸 for nature and you</span>
+        <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-6 text-sm text-white/45 md:flex-row">
+          <p>
+            © {new Date().getFullYear()} PhoolMandi Flower Farm.
+            All Rights Reserved.
+          </p>
+
+          <div className="flex gap-6">
+            <Link href="#" className="hover:text-[#E96D8E]">
+              Privacy Policy
+            </Link>
+
+            <Link href="#" className="hover:text-[#E96D8E]">
+              Terms
+            </Link>
+          </div>
+
+          <p>
+            Made with 🌸 for flower lovers across India
+          </p>
         </div>
       </div>
     </footer>

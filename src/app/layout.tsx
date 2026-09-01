@@ -5,6 +5,7 @@ import AnnouncementBar from "@/components/layout/announcement-bar";
 import Navbar from "@/components/layout/nav-bar";
 import { cn } from "@/lib/utils";
 import { Metadata } from "next";
+import Footer from "@/components/layout/footer";
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const fontMono = Geist_Mono({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({
         <AnnouncementBar />
         <Navbar />
         <ThemeProvider>{children}</ThemeProvider>
+        <Footer/>
       </body>
     </html>
   )

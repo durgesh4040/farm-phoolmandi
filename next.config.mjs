@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
-
-export default nextConfig
+const nextConfig = {
+  images: {
+    unoptimized: true,
+  },
+   allowedDevOrigins: ["192.168.0.104", "localhost"],
+};
+export default nextConfig;

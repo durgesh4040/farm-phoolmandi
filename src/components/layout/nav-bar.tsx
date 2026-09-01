@@ -1,21 +1,13 @@
 "use client";
 import { useState } from "react";
 import Link from "next/link";
-import {
-    Search,
-    User,
-    ShoppingCart,
-    Menu,
-    X,
-} from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { NAV_LINKS } from "@/lib/data";
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
-    const [cartCount] = useState(2);
     return (
-        <header
-            className="bg-farm h-22 sticky">
+        <header className="bg-white border-b border-slate-100 h-22 sticky top-0 z-50 shadow-sm">
             <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-6 px-4 md:px-6 lg:px-8">
                 <Link
                     href="/"
@@ -26,10 +18,10 @@ export default function Navbar() {
                     </span>
                     <div>
                         <span className="font-heading text-2xl font-bold leading-none text-[#305D3D]">
-                            PhoolMandi
+                            Phool<span className="text-[#E96D8E]">Mandi</span>
                         </span>
                         <span className="mt-1 block text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                            Flower Farm
+                            Premium Flower Farm
                         </span>
                     </div>
                 </Link>
@@ -45,35 +37,6 @@ export default function Navbar() {
                     ))}
                 </nav>
                 <div className="flex items-center gap-2">
-                    <button
-                        className="rounded-full p-2.5 text-foreground transition-colors hover:bg-muted"
-                        aria-label="Search"
-                    >
-                        <Search size={19} />
-                    </button>
-                    <button
-                        className="rounded-full p-2.5 text-foreground transition-colors hover:bg-muted"
-                        aria-label="Account"
-                    >
-                        <User size={19} />
-                    </button>
-                    <button
-                        className="relative rounded-full p-2.5 text-foreground transition-colors hover:bg-muted"
-                        aria-label="Cart"
-                    >
-                        <ShoppingCart size={19} />
-                        {cartCount > 0 && (
-                            <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#E96D8E] text-[10px] font-bold ">
-                                {cartCount}
-                            </span>
-                        )}
-                    </button>
-                    <Link
-                        href="#booking"
-                        className="ml-2 hidden rounded-full bg-[#305D3D] px-6 py-3 text-sm font-medium  transition-all duration-300 hover:scale-105 hover:bg-[#264B31] sm:inline-flex"
-                    >
-                        Shop Now
-                    </Link>
                     <button
                         className="ml-1 rounded-full p-2.5 transition-colors hover:bg-muted lg:hidden"
                         onClick={() => setMenuOpen(!menuOpen)}
@@ -101,12 +64,6 @@ export default function Navbar() {
                                 {link.label}
                             </Link>
                         ))}
-                        <Link
-                            href="#booking"
-                            className="mt-3 flex justify-center  text-muted-foreground rounded-full bg-[#375840] px-6 py-3 text-sm font-medium transition-all duration-300 hover:bg-[#264B31]"
-                        >
-                            Shop Now
-                        </Link>
                     </nav>
                 </div>
             )}

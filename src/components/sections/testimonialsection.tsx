@@ -6,53 +6,80 @@ import { TESTIMONIALS } from "@/lib/data";
 
 export default function TestimonialsSection() {
   return (
-    <section className="py-20 bg-warmwhite">
-      <div className="container">
-        <div className="text-center mb-12">
-          <span className="section-label mx-auto justify-center before:hidden">
+    <section className="py-24 bg-[#f8f6f2]">
+      <div className="container mx-auto px-4">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <span className="inline-flex items-center rounded-full bg-rose-100 px-4 py-1 text-sm font-medium text-rose-600 mb-4">
             Customer Love
           </span>
-          <h2 className="font-heading font-bold text-h2 text-darkgray mb-3">
-            What Our Customers <span className="text-rose italic">Say</span>
+          <h2 className="font-heading text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            What Our Customers{" "}
+            <span className="text-rose-500 italic">Say</span>
           </h2>
-          <div className="flex items-center justify-center gap-2">
-            <span className="block h-px w-12 bg-bordergray" />
-            <span className="text-rose text-lg">🌿</span>
-            <span className="block h-px w-12 bg-bordergray" />
+          <div className="flex items-center justify-center gap-3">
+            <span className="h-px w-16 bg-gray-300" />
+            <span className="text-xl">🌿</span>
+            <span className="h-px w-16 bg-gray-300" />
           </div>
         </div>
-
-        <div className="grid md:grid-cols-3 gap-6">
-          {TESTIMONIALS.map((t, i) => (
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {TESTIMONIALS.map((testimonial, index) => (
             <motion.div
-              key={t.name}
-              initial={{ opacity: 0, y: 24 }}
+              key={testimonial.name}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12 }}
-              className="card-base rounded-xl p-7 flex flex-col gap-4"
+              transition={{
+                duration: 0.5,
+                delay: index * 0.15,
+              }}
+              whileHover={{
+                y: -8,
+              }}
+              className="group flex h-full flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              {/* Quote mark */}
-              <span className="text-5xl text-rose-light font-serif leading-none">&ldquo;</span>
-
-              <p className="text-midgray text-sm leading-relaxed italic -mt-4">{t.text}</p>
-
-              {/* Stars */}
-              <div className="flex gap-1">
-                {[...Array(t.rating)].map((_, j) => (
-                  <Star key={j} size={13} className="fill-yellow-400 text-yellow-400" />
-                ))}
+              {/* Quote */}
+              <div className="mb-4">
+                <span className="font-serif text-6xl leading-none text-rose-200">
+                </span>
               </div>
 
-              {/* Author */}
-              <div className="flex items-center gap-3 pt-2 border-t border-bordergray">
-                <div className="w-10 h-10 rounded-full bg-rose-light text-rose font-bold text-sm
-                                flex items-center justify-center flex-shrink-0">
-                  {t.avatar}
+              {/* Review */}
+              <p className="flex-grow text-gray-600 italic leading-relaxed mb-6">
+                {testimonial.text}
+              </p>
+
+              {/* Rating */}
+              <div className="flex items-center gap-1 mb-6">
+                {[...Array(5)].map((_, starIndex) => (
+                  <Star
+                    key={starIndex}
+                    size={16}
+                    className={
+                      starIndex < testimonial.rating
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "text-gray-300"
+                    }
+                  />
+                ))}
+              </div>
+              <div className="mt-auto border-t border-gray-100 pt-5 flex items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-rose-400 to-pink-500 text-white font-bold shadow-md">
+                  {testimonial.avatar}
                 </div>
+
                 <div>
-                  <p className="font-semibold text-sm text-darkgray">{t.name}</p>
-                  <p className="text-xs text-midgray">{t.location} · {t.occasion}</p>
+                  <h4 className="font-semibold text-gray-900">
+                    {testimonial.name}
+                  </h4>
+
+                  <p className="text-sm text-gray-500">
+                    {testimonial.location}
+                  </p>
+
+                  <p className="text-xs text-rose-500 font-medium">
+                    {testimonial.occasion}
+                  </p>
                 </div>
               </div>
             </motion.div>
