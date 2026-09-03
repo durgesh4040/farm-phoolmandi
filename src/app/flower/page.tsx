@@ -1,6 +1,6 @@
-﻿"use client";
+"use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -52,7 +52,7 @@ function SkeletonCard() {
   );
 }
 
-export default function FlowerPage() {
+function FlowerPageContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -386,5 +386,20 @@ export default function FlowerPage() {
         )}
       </section>
     </div>
+  );
+}
+
+export default function FlowerPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[#faf9f6] flex items-center justify-center">
+        <div className="flex items-center gap-3 text-rose-600">
+          <Loader2 className="h-6 w-6 animate-spin" />
+          <span className="text-sm font-medium">Loading page...</span>
+        </div>
+      </div>
+    }>
+      <FlowerPageContent />
+    </Suspense>
   );
 }
