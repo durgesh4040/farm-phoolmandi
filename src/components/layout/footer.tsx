@@ -1,7 +1,7 @@
 
 "use client";
-
 import Link from "next/link";
+import siteData from "@/data/siteData.json";
 import {
   Phone,
   Mail,
@@ -14,7 +14,7 @@ const footerLinks = {
     { label: "Home", href: "/" },
     { label: "Product", href: "/flower" },
     { label: "Blog", href: "/blog" },
-    { label: "About", href: "/about" },
+    // { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ],
   Information: [
@@ -34,18 +34,8 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-5">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <div className="mb-5 flex items-center gap-3">
-              <span className="text-4xl">🌸</span>
-
-              <div>
-                <h2 className="text-3xl font-bold">
-                  Phool<span className="text-[#E96D8E]">Mandi</span>
-                </h2>
-
-                <p className="text-xs uppercase tracking-[0.25em] text-white/40">
-                  Premium Flower Farm
-                </p>
-              </div>
+            <div className="mb-6">
+              <img src="/logo.green.svg" alt="PhoolMandi Logo" className="w-52 md:w-56 h-auto object-contain" />
             </div>
 
             <p className="max-w-md leading-relaxed text-white/65">
@@ -99,12 +89,12 @@ export default function Footer() {
             <div className="space-y-4 text-white/65">
               <div className="flex gap-3">
                 <Phone size={18} className="text-[#E96D8E]" />
-                <span>+91 73032 31231</span>
+                <span>{siteData.contact.phone}</span>
               </div>
 
               <div className="flex gap-3">
                 <Mail size={18} className="text-[#E96D8E]" />
-                <span>info@phoolmandi.com</span>
+                <span>{siteData.contact.emails[0]}</span>
               </div>
 
               <div className="flex gap-3">
@@ -113,9 +103,12 @@ export default function Footer() {
                   className="mt-1 flex-shrink-0 text-[#E96D8E]"
                 />
                 <span>
-                  Village Phoolpur,
-                  <br />
-                  Nashik, Maharashtra 422101
+                  {siteData.contact.address.map((line, index) => (
+                    <span key={index}>
+                      {line}
+                      <br />
+                    </span>
+                  ))}
                 </span>
               </div>
             </div>

@@ -40,11 +40,19 @@ const Instagram = (props: React.SVGProps<SVGSVGElement>) => (
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 
-const announcements = [
-  { icon: Sprout, text: "Farm Fresh Flowers" },
-  { icon: Leaf, text: "Sustainable & Natural" },
-  { icon: Truck, text: "Delivered with Care" },
-];
+import siteData from "@/data/siteData.json";
+
+// Map string icon names to Lucide icon components
+const iconMap: Record<string, any> = {
+  Sprout,
+  Leaf,
+  Truck
+};
+
+const announcements = siteData.announcements.map(item => ({
+  icon: iconMap[item.icon] || Sprout,
+  text: item.text
+}));
 
 export default function AnnouncementBar() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -111,21 +119,21 @@ export default function AnnouncementBar() {
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.4 }}
-            href="tel:+919876543210" 
+            href={`tel:${siteData.contact.phone.replace(/[^0-9+]/g, "")}`} 
             className="flex items-center gap-1.5 hover:text-white transition-colors group"
           >
             <Phone className="w-3.5 h-3.5 group-hover:-rotate-12 transition-transform" /> 
-            <span className="tracking-wide">+91 98765 43210</span>
+            <span className="tracking-wide">{siteData.contact.phone}</span>
           </motion.a>
           <motion.a 
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5 }}
-            href="mailto:info@phoolmandi.com" 
+            href={`mailto:${siteData.contact.emails[0]}`} 
             className="flex items-center gap-1.5 hover:text-white transition-colors group"
           >
             <Mail className="w-3.5 h-3.5 group-hover:scale-110 transition-transform" /> 
-            <span className="tracking-wide">info@phoolmandi.com</span>
+            <span className="tracking-wide">{siteData.contact.emails[0]}</span>
           </motion.a>
           
           <motion.div 

@@ -13,17 +13,7 @@ export default function Navbar() {
                     href="/"
                     className="flex flex-shrink-2 items-center gap-3"
                 >
-                    <span className="text-3xl">
-                        🌸
-                    </span>
-                    <div>
-                        <span className="font-heading text-2xl font-bold leading-none text-[#305D3D]">
-                            Phool<span className="text-[#E96D8E]">Mandi</span>
-                        </span>
-                        <span className="mt-1 block text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                            Premium Flower Farm
-                        </span>
-                    </div>
+                    <img src="/logo.svg" alt="PhoolMandi Logo" className="w-48 md:w-56 h-auto object-contain" />
                 </Link>
                 <nav className="hidden items-center gap-1 lg:flex">
                     {NAV_LINKS.map((link) => (

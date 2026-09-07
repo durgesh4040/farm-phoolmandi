@@ -12,7 +12,7 @@ const formFields = [
     name: "name",
     type: "text",
     label: "Full Name",
-    placeholder: "John Doe",
+    placeholder: "Rahul Kumar",
     required: true,
     component: "input",
     colSpan: "full",
@@ -22,7 +22,7 @@ const formFields = [
     name: "email",
     type: "email",
     label: "Email Address",
-    placeholder: "john@example.com",
+    placeholder: "rahul@example.com",
     required: true,
     component: "input",
     colSpan: "half",
@@ -32,7 +32,7 @@ const formFields = [
     name: "phone",
     type: "tel",
     label: "Phone Number",
-    placeholder: "+91 12345 67890",
+    placeholder: "+916392226008",
     required: true,
     component: "input",
     colSpan: "half",
@@ -50,25 +50,19 @@ const formFields = [
   },
 ];
 
+import siteData from "@/data/siteData.json";
+
 const contactDetails = {
   whatsapp: {
-    display: "+91-7303231231",
-    href: "https://wa.me/917303231231",
+    display: siteData.contact.whatsapp,
+    href: `https://wa.me/${siteData.contact.whatsapp.replace(/[^0-9]/g, "")}`,
   },
   phone: {
-    display: "+91-7303231231",
-    href: "tel:+917303231231",
+    display: siteData.contact.phone,
+    href: `tel:${siteData.contact.phone.replace(/[^0-9+]/g, "")}`,
   },
-  emails: [
-    "sales@chhajedgarden.com",
-    "chhajedgarden@gmail.com",
-  ],
-  address: [
-    "C/o Sanjay Nursery, Arihant,",
-    "S No -877, Kadam Wak Wasti,",
-    "Pune Solapur Road, Loni Kalbhor,",
-    "Pune - 412201",
-  ],
+  emails: siteData.contact.emails,
+  address: siteData.contact.address,
 };
 
 export default function ContactSection() {
