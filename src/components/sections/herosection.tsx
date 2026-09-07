@@ -5,8 +5,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Leaf, ShieldCheck, Truck, Sprout } from "lucide-react";
 const STATS = [
-    { number: "500+", label: "Events Served" },
-    { number: "10K+", label: "Happy Customers" },
+    { number: "1000+", label: "Events Served" },
+    { number: "500+", label: "Happy Customers" },
     { number: "100%", label: "Natural Flowers" },
 ];
 
@@ -192,7 +192,7 @@ export default function HeroSection() {
                                 </span>
                                 <div>
                                     <p className="text-xl font-extrabold leading-none text-green-800">
-                                        50K+
+                                        500+
                                     </p>
                                     <p className="mt-0.5 text-xs text-gray-500">Happy Customers</p>
                                 </div>

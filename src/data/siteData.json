@@ -1,0 +1,18 @@
+{
+  "contact": {
+    "phone": "+91-6394423282",
+    "whatsapp": "+91-6394423282",
+    "emails": [
+      "phoolmandi.in@gmail.com"
+    ],
+    "address": [
+      "Kanpur",
+      "Uttar Pradesh"
+    ]
+  },
+  "announcements": [
+    { "icon": "Sprout", "text": "Farm Fresh Flowers" },
+    { "icon": "Leaf", "text": "Sustainable & Natural" },
+    { "icon": "Truck", "text": "Delivered with Care" }
+  ]
+}
